@@ -1,5 +1,5 @@
 # tern
-An implementation of ternary propositional logic in OCaml.
+Implementation of Kleene/Łukasiewicz logic.
 
 # License
 GNU GPL v3 - see [LICENSE](LICENSE) for details.
