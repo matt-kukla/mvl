@@ -1,6 +1,7 @@
 exception Unknown
 
 type trilean = T | F | U
+
 type tern_expr = 
     | Tr of trilean
     | And of tern_expr * tern_expr

@@ -1,6 +1,6 @@
 (** tern - Kleene and Łukasiewicz ternary propositional logic. *)
 
-(** @author Matthew Kukla <matt.kukla@yandex.ru> *)
+(** @author Matthew Kukla *)
 
 exception Unknown
 
