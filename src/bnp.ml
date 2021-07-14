@@ -28,7 +28,7 @@ match x, y with
     | F, F -> F
     | B, F | F, B | B, B -> B
 
-let material_implication x y = 
+let implic x y = 
 match x, y with
     | _ , T -> T
     | N, _ | B, B -> T
@@ -43,4 +43,4 @@ match e with
     | And(l, r) -> and_bnp (eval_bnp l) (eval_bnp r)
     | Or(l, r) -> or_bnp (eval_bnp l) (eval_bnp r)
     | Not(x) -> not_bnp (eval_bnp  x)
-    | Impl(l, r) -> material_implication (eval_bnp l) (eval_bnp r) 
+    | Impl(l, r) -> implic(eval_bnp l) (eval_bnp r) 

@@ -5,7 +5,6 @@
 (** Truth values (True, False, Neither, Both). *)
 type belnap = T | F | N | B
 
-(** Formulas *)
 type bnp_expr =
     Val of belnap
     | And of bnp_expr * bnp_expr
@@ -22,8 +21,8 @@ val and_bnp : belnap -> belnap -> belnap
 (** Disjunction *)
 val or_bnp : belnap -> belnap -> belnap
 
-(** Material implication *)
-val material_implication : belnap -> belnap -> belnap
+(** Implication *)
+val implic : belnap -> belnap -> belnap
     
 (** Evaluate formula *)
 val eval_bnp : bnp_expr -> belnap
