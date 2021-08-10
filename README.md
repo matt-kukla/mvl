@@ -1,7 +1,7 @@
 # mvl
 Library providing support for several multivalued logic systems in OCaml, namely:
 
-* Belnap (four valued)
+* Belnap (four-valued)
 * Kleene/Łukasiewicz (ternary)
 
 # Documentation
