@@ -21,7 +21,7 @@ val and_bnp : belnap -> belnap -> belnap
 (** Disjunction *)
 val or_bnp : belnap -> belnap -> belnap
 
-(** Implication *)
+(** Truth-preserving implication  *)
 val implic : belnap -> belnap -> belnap
     
 (** Evaluate formula *)
