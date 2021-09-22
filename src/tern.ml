@@ -4,11 +4,13 @@ type trilean = T | F | U
 
 type tern_expr = 
     | Tr of trilean
+    | Not of tern_expr
+    | Unop of (trilean -> trilean) * tern_expr
     | And of tern_expr * tern_expr
     | Or of tern_expr * tern_expr
-    | Not of tern_expr 
     | Impl of tern_expr * tern_expr
     | Impl_Lukas of tern_expr * tern_expr
+    | Binop of (trilean -> trilean -> trilean) *  tern_expr * tern_expr
 
 let not_tern x = 
 match x with
@@ -42,11 +44,13 @@ match x with
     | Tr(T) -> T
     | Tr(F) -> F
     | Tr(U) -> U
+    | Not(a) -> not_tern (eval_tern a)
+    | Unop(u, a) -> u ( eval_tern a)
     | And(l, r) -> and_tern (eval_tern l) (eval_tern r)
     | Or(l, r) -> or_tern (eval_tern l) (eval_tern r) 
     | Impl(l, r) -> impl_tern (eval_tern l) (eval_tern r)
-    | Impl_Lukas(l, r) -> impl_lukas (eval_tern l) (eval_tern r) 
-    | Not(a) -> not_tern (eval_tern a)
+    | Impl_Lukas(l, r) -> impl_lukas (eval_tern l) (eval_tern r)
+    | Binop(b, l, r) -> b (eval_tern l) (eval_tern r)
 
 let to_bool x =
 match x with

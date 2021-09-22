@@ -9,7 +9,7 @@ type bnp_expr =
     | Val of belnap
     | Not of bnp_expr
     | Cnf of bnp_expr
-    | Unop of (belnap -> belnap) * bnp_expr (** User-defined unary operator *)
+    | Unop of (belnap -> belnap) * bnp_expr (** User-defined unary operators *)
     | And of bnp_expr * bnp_expr
     | Or of bnp_expr * bnp_expr
     | Impl of bnp_expr * bnp_expr
@@ -19,7 +19,7 @@ type bnp_expr =
     | Cns of bnp_expr * bnp_expr
     | Gul of bnp_expr * bnp_expr
     | Binop of (belnap -> belnap -> belnap) *  bnp_expr * bnp_expr
-    (** User-defined binary operator *)
+    (** User-defined binary operators *)
 
 (** Negation *)
 val not_bnp : belnap -> belnap

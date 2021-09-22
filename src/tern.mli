@@ -7,15 +7,16 @@ exception Unknown
 (** Truth values (True, False, Unknown) *)
 type trilean = T | F | U
 
-(** Ternary logic formulas take the same form as regular propositional
-formulas (with the addition of  Łukasiewicz implication). *)
 type tern_expr =
     | Tr of trilean
+    | Not of tern_expr
+    | Unop of (trilean -> trilean) * tern_expr (** User-defined unary operators *)
     | And of tern_expr * tern_expr
     | Or of tern_expr * tern_expr
-    | Not of tern_expr
     | Impl of tern_expr * tern_expr
     | Impl_Lukas of tern_expr * tern_expr
+    | Binop of (trilean -> trilean -> trilean) *  tern_expr * tern_expr
+    (** User-defined binary operators *)
 
 (** Ternary "not" *)
 val not_tern : trilean -> trilean
