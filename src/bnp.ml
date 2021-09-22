@@ -4,6 +4,7 @@ type bnp_expr =
     | Val of belnap
     | Not of bnp_expr
     | Cnf of bnp_expr
+    | Unop of (belnap -> belnap) * bnp_expr
     | And of bnp_expr * bnp_expr
     | Or of bnp_expr * bnp_expr
     | Impl of bnp_expr * bnp_expr
@@ -12,6 +13,7 @@ type bnp_expr =
     | Impl_ST of bnp_expr * bnp_expr
     | Cns of bnp_expr * bnp_expr
     | Gul of bnp_expr * bnp_expr
+    | Binop of (belnap -> belnap -> belnap) *  bnp_expr * bnp_expr
 
 let not_bnp x =
 match x with
@@ -86,7 +88,8 @@ let rec eval_bnp e =
 match e with
     | Val(x) -> x
     | Not(x) -> not_bnp (eval_bnp x)
-    | Cnf(x) -> conf (eval_bnp x) 
+    | Cnf(x) -> conf (eval_bnp x)
+    | Unop(u, x) -> u (eval_bnp x)
     | And(l, r) -> and_bnp (eval_bnp l) (eval_bnp r)
     | Or(l, r) -> or_bnp (eval_bnp l) (eval_bnp r)
     | Impl(l, r) -> implic(eval_bnp l) (eval_bnp r)
@@ -95,3 +98,4 @@ match e with
     | Impl_ST(l, r) -> implic_st (eval_bnp l) (eval_bnp r)
     | Cns(l, r) -> cns (eval_bnp l) (eval_bnp r)
     | Gul(l, r) -> gull (eval_bnp l) (eval_bnp r)
+    | Binop(b, l, r) -> b (eval_bnp l) (eval_bnp r)
