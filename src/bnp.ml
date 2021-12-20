@@ -2,6 +2,7 @@ type belnap = T | F | N | B
 
 type bnp_expr = 
     | Val of belnap
+    | BVar of string
     | Not of bnp_expr
     | Cnf of bnp_expr
     | Unop of (belnap -> belnap) * bnp_expr
@@ -84,18 +85,19 @@ match x, y with
     | N, N -> N
     | B, _ | _, B | T, F | F, T -> B
 
-let rec eval_bnp e = 
+let rec eval_bnp e v = 
 match e with
     | Val(x) -> x
-    | Not(x) -> not_bnp (eval_bnp x)
-    | Cnf(x) -> conf (eval_bnp x)
-    | Unop(u, x) -> u (eval_bnp x)
-    | And(l, r) -> and_bnp (eval_bnp l) (eval_bnp r)
-    | Or(l, r) -> or_bnp (eval_bnp l) (eval_bnp r)
-    | Impl(l, r) -> implic(eval_bnp l) (eval_bnp r)
-    | Impl_CMI(l, r) -> implic_cmi(eval_bnp l) (eval_bnp r)
-    | Impl_BN(l, r) -> implic_bn (eval_bnp l) (eval_bnp r)
-    | Impl_ST(l, r) -> implic_st (eval_bnp l) (eval_bnp r)
-    | Cns(l, r) -> cns (eval_bnp l) (eval_bnp r)
-    | Gul(l, r) -> gull (eval_bnp l) (eval_bnp r)
-    | Binop(b, l, r) -> b (eval_bnp l) (eval_bnp r)
+    | BVar(x) -> List.assoc x v
+    | Not(x) -> not_bnp (eval_bnp x v)
+    | Cnf(x) -> conf (eval_bnp x v)
+    | Unop(u, x) -> u (eval_bnp x v)
+    | And(l, r) -> and_bnp (eval_bnp l v) (eval_bnp r v)
+    | Or(l, r) -> or_bnp (eval_bnp l v) (eval_bnp r v)
+    | Impl(l, r) -> implic(eval_bnp l v) (eval_bnp r v)
+    | Impl_CMI(l, r) -> implic_cmi(eval_bnp l v) (eval_bnp r v)
+    | Impl_BN(l, r) -> implic_bn (eval_bnp l v) (eval_bnp r v)
+    | Impl_ST(l, r) -> implic_st (eval_bnp l v) (eval_bnp r v)
+    | Cns(l, r) -> cns (eval_bnp l v) (eval_bnp r v)
+    | Gul(l, r) -> gull (eval_bnp l v) (eval_bnp r v)
+    | Binop(b, l, r) -> b (eval_bnp l v) (eval_bnp r v)

@@ -7,6 +7,7 @@ type belnap = T | F | N | B
 
 type bnp_expr =
     | Val of belnap
+    | BVar of string
     | Not of bnp_expr
     | Cnf of bnp_expr
     | Unop of (belnap -> belnap) * bnp_expr (** User-defined unary operators *)
@@ -51,5 +52,5 @@ val cns : belnap -> belnap -> belnap
 (** Gullibility *)
 val gull : belnap -> belnap -> belnap
 
-(** Evaluate formula *)
-val eval_bnp : bnp_expr -> belnap
+(** Evaluate formula over valuation *)
+val eval_bnp : bnp_expr -> (string * belnap) list -> belnap

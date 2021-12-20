@@ -2,7 +2,8 @@ exception Unknown
 
 type trilean = T | F | U
 
-type tern_expr = 
+type  tern_expr  =
+    | Var of string
     | Tr of trilean
     | Not of tern_expr
     | Unop of (trilean -> trilean) * tern_expr
@@ -13,6 +14,8 @@ type tern_expr =
     | Impl of tern_expr * tern_expr
     | Impl_Lukas of tern_expr * tern_expr
     | ImplSt of tern_expr * tern_expr
+    | BicondSt of tern_expr * tern_expr
+    | XorSt of tern_expr * tern_expr
     | Binop of (trilean -> trilean -> trilean) *  tern_expr * tern_expr
 
 let not_tern x = 
@@ -60,24 +63,33 @@ match x, y with
     | T, T | F, T | F, F-> T
     | T, F -> F
 
-let rec eval_tern x = 
+let bicond_st x y = and_st (impl_st x y) (impl_st y x)
+
+let xor_st x y = not_tern (bicond_st x y)
+
+let rec eval_tern x v = 
 match x with
     | Tr(T) -> T
+    | Var(a) -> List.assoc a v
     | Tr(F) -> F
     | Tr(U) -> U
-    | Not(a) -> not_tern (eval_tern a)
-    | Unop(u, a) -> u ( eval_tern a)
-    | And(l, r) -> and_tern (eval_tern l) (eval_tern r)
-    | AndSt(l, r) -> and_st (eval_tern l) (eval_tern r)
-    | Or(l, r) -> or_tern (eval_tern l) (eval_tern r) 
-    | OrSt(l, r) ->  or_st (eval_tern l) (eval_tern r)
-    | Impl(l, r) -> impl_tern (eval_tern l) (eval_tern r)
-    | Impl_Lukas(l, r) -> impl_lukas (eval_tern l) (eval_tern r)
-    | ImplSt(l, r) -> impl_st (eval_tern l) (eval_tern r)
-    | Binop(b, l, r) -> b (eval_tern l) (eval_tern r)
+    | Not(a) -> not_tern (eval_tern a v)
+    | Unop(u, a) -> u ( eval_tern a v)
+    | And(l, r) -> and_tern (eval_tern l v) (eval_tern r v)
+    | AndSt(l, r) -> and_st (eval_tern l v) (eval_tern r v)
+    | Or(l, r) -> or_tern (eval_tern l v) (eval_tern r v) 
+    | OrSt(l, r) ->  or_st (eval_tern l v) (eval_tern r v)
+    | XorSt(l, r) -> xor_st (eval_tern l v) (eval_tern r v)
+    | Impl(l, r) -> impl_tern (eval_tern l v) (eval_tern r v)
+    | Impl_Lukas(l, r) -> impl_lukas (eval_tern l v) (eval_tern r v)
+    | ImplSt(l, r) -> impl_st (eval_tern l v) (eval_tern r v)
+    | BicondSt(l, r) -> bicond_st (eval_tern l v) (eval_tern r v)
+    | Binop(b, l, r) -> b (eval_tern l v) (eval_tern r v)
 
 let to_bool x =
 match x with
     | T -> true
     | F -> false
     | U -> raise Unknown
+
+
