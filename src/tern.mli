@@ -57,3 +57,6 @@ val eval_tern : tern_expr -> (string * trilean) list -> trilean
 (** Convert T or F to respective boolean values.  
 Raises [Unknown] when passed [U].*)
 val to_bool : trilean -> bool
+
+(** Well-definedness *)
+val wdef : trilean -> bool

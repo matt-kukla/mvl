@@ -63,6 +63,7 @@ match x, y with
     | T, T | F, T | F, F-> T
     | T, F -> F
 
+
 let bicond_st x y = and_st (impl_st x y) (impl_st y x)
 
 let xor_st x y = not_tern (bicond_st x y)
@@ -92,4 +93,12 @@ match x with
     | F -> false
     | U -> raise Unknown
 
+let wdef x = 
+match x with 
+    | T | F -> true
+    | U -> false
 
+(* let rewrite f = 
+match f with
+    | AndSt(x, XorSt(y, z)) -> XorSt(AndSt(x, y), AndSt(x, z))
+    | _ -> Val(U) *)
