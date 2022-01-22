@@ -68,8 +68,8 @@ let bicond_st x y = and_st (impl_st x y) (impl_st y x)
 
 let xor_st x y = not_tern (bicond_st x y)
 
-let rec eval_tern x v = 
-match x with
+let rec eval_tern e v = 
+match e with
     | Tr(T) -> T
     | Var(a) -> List.assoc a v
     | Tr(F) -> F
@@ -98,7 +98,10 @@ match x with
     | T | F -> true
     | U -> false
 
-(* let rewrite f = 
-match f with
-    | AndSt(x, XorSt(y, z)) -> XorSt(AndSt(x, y), AndSt(x, z))
-    | _ -> Val(U) *)
+let rec is_strict e =
+match e with 
+    | AndSt(l, r) | OrSt(l, r) | XorSt(l, r) 
+    | ImplSt(l, r) | BicondSt(l, r) -> is_strict l && is_strict r
+    | Not(a) -> is_strict a
+    | Var(_) | Tr(_) -> true
+    | _ -> false

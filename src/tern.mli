@@ -51,7 +51,7 @@ val impl_st : trilean -> trilean -> trilean
 (** Strict biconditional *)
 val bicond_st : trilean -> trilean -> trilean
 
-(** Evaluate ternary formula over given valuation *)
+(** Evaluate expression over given valuation *)
 val eval_tern : tern_expr -> (string * trilean) list -> trilean
 
 (** Convert T or F to respective boolean values.  
@@ -60,3 +60,6 @@ val to_bool : trilean -> bool
 
 (** Well-definedness *)
 val wdef : trilean -> bool
+
+(** Check if expression contains all strict connectives. *)
+val is_strict : tern_expr -> bool
