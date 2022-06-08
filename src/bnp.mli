@@ -22,35 +22,37 @@ type bnp_expr =
     | Binop of (belnap -> belnap -> belnap) *  bnp_expr * bnp_expr
     (** User-defined binary operators *)
 
-(** Negation *)
+(** Classical negation, with ¬[B] = [B], ¬[N] = [N].*)
 val not_bnp : belnap -> belnap
 
-(** Conflation *)
+(** Conflation -- [T]/[F] preserved; maps [B] to [N] and vice-versa. *)
 val conf : belnap -> belnap
 
-(** Conjunction *)
+(** Conjunction.*)
 val and_bnp : belnap -> belnap -> belnap
     
-(** Disjunction *)
+(** Disjunction.*)
 val or_bnp : belnap -> belnap -> belnap
 
-(** Truth-preserving implication  *)
+(** Truth-preserving implication. *)
 val implic : belnap -> belnap -> belnap
 
-(** Material implication *)
+(** Material implication (Arieli-Avron).  *)
 val implic_cmi : belnap -> belnap -> belnap
 
-(** Belnap implication *)
+(** Belnap implication.*)
 val implic_bn : belnap -> belnap -> belnap
 
-(** Strong implication *)
+(** Strong implication -- equivalent to (X → Y) ∧ (¬Y → X) where → is
+material implication ([implic_cmi]). *)
 val implic_st : belnap -> belnap -> belnap
 
-(** Consensus *)
+(** Consensus -- returns [T]/[F] when both arguments are [T]/[F], otherwise, 
+returns [B]. *)
 val cns : belnap -> belnap -> belnap
 
-(** Gullibility *)
+(** Gullibility -- equivalent to negation on [T] and [F]; maps [B] to [N] and vice-versa. *)
 val gull : belnap -> belnap -> belnap
 
-(** Evaluate formula over valuation *)
+(** Evaluate formula over valuation. *)
 val eval_bnp : bnp_expr -> (string * belnap) list -> belnap

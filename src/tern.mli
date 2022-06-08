@@ -24,41 +24,42 @@ type tern_expr =
     | Binop of (trilean -> trilean -> trilean) *  tern_expr * tern_expr
     (** User-defined binary operators *)
 
-(** Ternary "not" *)
+(** Ternary negation: ¬[U] = [U]. *)
 val not_tern : trilean -> trilean
 
-(** Ternary "and" *)
+(** Ternary conjunction. *)
 val and_tern : trilean -> trilean -> trilean 
 
-(** Strict "and" *)
+(** Strict conjunction: X ∧ [U] = [U], for all X. *)
 val and_st : trilean -> trilean -> trilean
 
-(** Ternary "or" *)
+(** Ternary disjunction. *)
 val or_tern : trilean -> trilean -> trilean
 
-(** Strict "or" *)
+(** Strict conjunction: X ∨ [U] = [U] for all X. *)
 val or_st : trilean -> trilean -> trilean
 
-(** Regular ternary (Kleene) implication *)
+(** Kleene implication *)
 val impl_tern : trilean -> trilean -> trilean
 
-(** Łukasiewicz implication *)
+(** Łukasiewicz implication: equivalent to Kleene implication except for [U] → [U] =
+[T]. *)
 val impl_lukas : trilean -> trilean -> trilean
 
-(** Strict implication *)
+(** Strict implication: X → [U] = [U], [U] → X = [U]. *)
 val impl_st : trilean -> trilean -> trilean
 
-(** Strict biconditional *)
+(** Strict biconditional. *)
 val bicond_st : trilean -> trilean -> trilean
 
 (** Evaluate expression over given valuation *)
 val eval_tern : tern_expr -> (string * trilean) list -> trilean
 
-(** Convert T or F to respective boolean values.  
+(** Convert [T] or [F] to respective boolean values.  
 Raises [Unknown] when passed [U].*)
 val to_bool : trilean -> bool
 
-(** Well-definedness *)
+(** Well-definedness. *)
 val wdef : trilean -> bool
 
 (** Check if expression contains all strict connectives. *)
